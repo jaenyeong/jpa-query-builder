@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 public class ReflectionTest {
     private static final Logger logger = LoggerFactory.getLogger(ReflectionTest.class);
@@ -73,9 +74,11 @@ public class ReflectionTest {
 
         name.set(car, carName);
         price.set(car, carPrice);
-        
-        assertThat(car.testGetName()).isEqualTo("test : " + carName);
-        assertThat(car.testGetPrice()).isEqualTo("test : " + carPrice);
+
+        assertAll("Car Properties",
+                () -> assertThat(car.testGetName()).isEqualTo("test : " + carName),
+                () -> assertThat(car.testGetPrice()).isEqualTo("test : " + carPrice)
+        );
     }
 
     @Test
@@ -88,7 +91,9 @@ public class ReflectionTest {
 
         Car newCar = constructor.newInstance(carName, carPrice);
 
-        assertThat(newCar.testGetName()).isEqualTo("test : " + carName);
-        assertThat(newCar.testGetPrice()).isEqualTo("test : " + carPrice);
+        assertAll("NewCar Properties",
+                () -> assertThat(newCar.testGetName()).isEqualTo("test : " + carName),
+                () -> assertThat(newCar.testGetPrice()).isEqualTo("test : " + carPrice)
+        );
     }
 }
